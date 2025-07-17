@@ -1,0 +1,2 @@
+# jaiyzusSC
+yt superchat counter
