@@ -30,12 +30,12 @@ export default function Dashboard() {
     body.style.color = '#ffffff';
   }, []);
 
-  // Initialize with a default campaign
+  // Initialize with a default goal
   useEffect(() => {
-    const defaultCampaign: Campaign = {
+    const defaultGoal: Campaign = {
       id: generateId(),
-      title: 'Live Stream Fundraiser',
-      description: 'Every donation brings us closer to making a difference!',
+      title: 'PS5',
+      description: 'need ps5 before 300k',
       targetAmount: 1000,
       currentAmount: 0,
       currency: 'USD',
@@ -44,12 +44,12 @@ export default function Dashboard() {
       createdAt: new Date(),
       lastUpdated: new Date()
     };
-    setCampaigns([defaultCampaign]);
-    setActiveCampaignId(defaultCampaign.id);
+    setCampaigns([defaultGoal]);
+    setActiveCampaignId(defaultGoal.id);
   }, []);
 
-  // Memoize active campaign lookup
-  const activeCampaign = useMemo(() => {
+  // Memoize active goal lookup
+  const activeGoal = useMemo(() => {
     return campaigns.find(c => c.id === activeCampaignId) || campaigns[0];
   }, [campaigns, activeCampaignId]);
 
@@ -90,14 +90,14 @@ export default function Dashboard() {
     }, [] as Contributor[]).sort((a, b) => b.totalAmount - a.totalAmount);
   }, [superChats]);
 
-  // Memoize calculations that depend on activeCampaign
+  // Memoize calculations that depend on activeGoal
   const progress = useMemo(() => {
-    return activeCampaign ? calculateProgress(activeCampaign.currentAmount, activeCampaign.targetAmount) : 0;
-  }, [activeCampaign]);
+    return activeGoal ? calculateProgress(activeGoal.currentAmount, activeGoal.targetAmount) : 0;
+  }, [activeGoal]);
 
   const duration = useMemo(() => {
-    return activeCampaign ? formatDuration(activeCampaign.startDate) : '';
-  }, [activeCampaign]);
+    return activeGoal ? formatDuration(activeGoal.startDate) : '';
+  }, [activeGoal]);
 
   const handleImportData = (newSuperChats: SuperChatData[]) => {
     setSuperChats(prev => [...prev, ...newSuperChats]);
@@ -112,13 +112,13 @@ export default function Dashboard() {
   };
 
   const handleAddManualDonation = (contributor: string, amount: number, message?: string) => {
-    if (!activeCampaign) return;
+    if (!activeGoal) return;
     
     const newSuperChat: SuperChatData = {
       id: generateId(),
       contributor,
       amount,
-      currency: activeCampaign.currency,
+      currency: activeGoal.currency,
       message: message || '',
       timestamp: new Date(),
       platform: 'manual'
@@ -145,7 +145,7 @@ export default function Dashboard() {
     setShowClearConfirm(false);
   };
 
-  // Campaign management functions
+  // Goal management functions
   const handleCreateCampaign = (campaignData: Omit<Campaign, 'id' | 'createdAt' | 'lastUpdated' | 'currentAmount'>) => {
     const newCampaign: Campaign = {
       ...campaignData,
@@ -156,12 +156,12 @@ export default function Dashboard() {
     };
     setCampaigns(prev => [...prev, newCampaign]);
     setActiveCampaignId(newCampaign.id);
-    setSuperChats([]); // Clear donations when switching campaigns
+    setSuperChats([]); // Clear donations when switching goals
   };
 
   const handleSelectCampaign = (campaignId: string) => {
     setActiveCampaignId(campaignId);
-    setSuperChats([]); // Clear donations when switching campaigns
+    setSuperChats([]); // Clear donations when switching goals
     setShowCampaignsManager(false);
   };
 
@@ -176,14 +176,14 @@ export default function Dashboard() {
   const handleDeleteCampaign = (campaignId: string) => {
     setCampaigns(prev => prev.filter(campaign => campaign.id !== campaignId));
     
-    // If deleting active campaign, check if there are remaining campaigns
+    // If deleting active goal, check if there are remaining goals
     if (campaignId === activeCampaignId) {
       const remainingCampaigns = campaigns.filter(c => c.id !== campaignId);
       if (remainingCampaigns.length > 0) {
         setActiveCampaignId(remainingCampaigns[0].id);
         setSuperChats([]);
       } else {
-        // If no campaigns left, clear active campaign and stay in campaigns manager
+        // If no goals left, clear active goal and stay in goals manager
         setActiveCampaignId('');
         setSuperChats([]);
         setShowCampaignsManager(true);
@@ -191,8 +191,8 @@ export default function Dashboard() {
     }
   };
 
-  // Early return if no active campaign - show campaigns manager instead of loading
-  if (!activeCampaign || campaigns.length === 0) {
+  // Early return if no active goal - show goals manager instead of loading
+  if (!activeGoal || campaigns.length === 0) {
     return (
       <div className="min-h-screen bg-[#0f0f0f]">
         <div className="container mx-auto px-4 py-6 space-y-6">
@@ -202,7 +202,7 @@ export default function Dashboard() {
             </div>
             <div className="text-center py-8">
               <h2 className="text-xl font-semibold text-white mb-4">Welcome!</h2>
-              <p className="text-gray-400 mb-6">Create your first campaign to get started tracking donations.</p>
+              <p className="text-gray-400 mb-6">Create your first goal to get started tracking donations.</p>
             </div>
           </div>
           <CampaignsManager
@@ -212,7 +212,7 @@ export default function Dashboard() {
             onSelectCampaign={handleSelectCampaign}
             onUpdateCampaign={handleUpdateCampaign}
             onDeleteCampaign={handleDeleteCampaign}
-            onClose={() => {}} // No close button when no campaigns exist
+            onClose={() => {}} // No close button when no goals exist
           />
         </div>
       </div>
@@ -223,7 +223,7 @@ export default function Dashboard() {
     <div className="min-h-screen bg-[#0f0f0f]">
       <div className="container mx-auto px-4 py-6 space-y-6">
         <Header
-          campaign={activeCampaign}
+          campaign={activeGoal}
           onCampaignUpdate={handleCampaignUpdate}
           onClearAllDonations={handleClearAllDonations}
           onShowCampaignsManager={() => setShowCampaignsManager(true)}
@@ -246,7 +246,7 @@ export default function Dashboard() {
               {/* Main Progress Section */}
               <div className="lg:col-span-2 space-y-6">
                 <ProgressSection
-                  campaign={activeCampaign}
+                  campaign={activeGoal}
                   progress={progress}
                   duration={duration}
                   onAddManualDonation={handleAddManualDonation}
@@ -254,7 +254,7 @@ export default function Dashboard() {
                 
                 <StatsSection
                   superChats={superChats}
-                  campaign={activeCampaign}
+                  campaign={activeGoal}
                   contributors={contributors}
                   onEditDonation={handleEditDonation}
                   onDeleteDonation={handleDeleteDonation}
@@ -270,11 +270,11 @@ export default function Dashboard() {
                   onLiveInfoUpdate={setLiveInfo}
                 />
                 
-                <LeaderboardSection contributors={contributors} currency={activeCampaign.currency} />
+                <LeaderboardSection contributors={contributors} currency={activeGoal.currency} />
               </div>
             </div>
 
-            <ImportSection onImportData={handleImportData} campaignCurrency={activeCampaign.currency} />
+            <ImportSection onImportData={handleImportData} campaignCurrency={activeGoal.currency} />
           </>
         )}
 
@@ -284,7 +284,7 @@ export default function Dashboard() {
           onClose={() => setShowClearConfirm(false)}
           onConfirm={confirmClearAllDonations}
           title="Clear All Donations"
-          message={`Are you sure you want to clear all ${superChats.length} donations? This action cannot be undone and will reset your campaign progress.`}
+          message={`Are you sure you want to clear all ${superChats.length} donations? This action cannot be undone and will reset your goal progress.`}
           confirmText="Clear All"
           cancelText="Keep Donations"
           type="danger"

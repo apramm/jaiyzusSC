@@ -4491,12 +4491,12 @@ function Dashboard() {
         body.style.backgroundColor = '#0f0f0f';
         body.style.color = '#ffffff';
     }, []);
-    // Initialize with a default campaign
+    // Initialize with a default goal
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
-        const defaultCampaign = {
+        const defaultGoal = {
             id: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["generateId"])(),
-            title: 'Live Stream Fundraiser',
-            description: 'Every donation brings us closer to making a difference!',
+            title: 'PS5',
+            description: 'need ps5 before 300k',
             targetAmount: 1000,
             currentAmount: 0,
             currency: 'USD',
@@ -4506,12 +4506,12 @@ function Dashboard() {
             lastUpdated: new Date()
         };
         setCampaigns([
-            defaultCampaign
+            defaultGoal
         ]);
-        setActiveCampaignId(defaultCampaign.id);
+        setActiveCampaignId(defaultGoal.id);
     }, []);
-    // Memoize active campaign lookup
-    const activeCampaign = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useMemo"])(()=>{
+    // Memoize active goal lookup
+    const activeGoal = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useMemo"])(()=>{
         return campaigns.find((c)=>c.id === activeCampaignId) || campaigns[0];
     }, [
         campaigns,
@@ -4556,16 +4556,16 @@ function Dashboard() {
     }, [
         superChats
     ]);
-    // Memoize calculations that depend on activeCampaign
+    // Memoize calculations that depend on activeGoal
     const progress = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useMemo"])(()=>{
-        return activeCampaign ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["calculateProgress"])(activeCampaign.currentAmount, activeCampaign.targetAmount) : 0;
+        return activeGoal ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["calculateProgress"])(activeGoal.currentAmount, activeGoal.targetAmount) : 0;
     }, [
-        activeCampaign
+        activeGoal
     ]);
     const duration = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useMemo"])(()=>{
-        return activeCampaign ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["formatDuration"])(activeCampaign.startDate) : '';
+        return activeGoal ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["formatDuration"])(activeGoal.startDate) : '';
     }, [
-        activeCampaign
+        activeGoal
     ]);
     const handleImportData = (newSuperChats)=>{
         setSuperChats((prev)=>[
@@ -4581,12 +4581,12 @@ function Dashboard() {
                 } : campaign));
     };
     const handleAddManualDonation = (contributor, amount, message)=>{
-        if (!activeCampaign) return;
+        if (!activeGoal) return;
         const newSuperChat = {
             id: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["generateId"])(),
             contributor,
             amount,
-            currency: activeCampaign.currency,
+            currency: activeGoal.currency,
             message: message || '',
             timestamp: new Date(),
             platform: 'manual'
@@ -4612,7 +4612,7 @@ function Dashboard() {
         setSuperChats([]);
         setShowClearConfirm(false);
     };
-    // Campaign management functions
+    // Goal management functions
     const handleCreateCampaign = (campaignData)=>{
         const newCampaign = {
             ...campaignData,
@@ -4626,11 +4626,11 @@ function Dashboard() {
                 newCampaign
             ]);
         setActiveCampaignId(newCampaign.id);
-        setSuperChats([]); // Clear donations when switching campaigns
+        setSuperChats([]); // Clear donations when switching goals
     };
     const handleSelectCampaign = (campaignId)=>{
         setActiveCampaignId(campaignId);
-        setSuperChats([]); // Clear donations when switching campaigns
+        setSuperChats([]); // Clear donations when switching goals
         setShowCampaignsManager(false);
     };
     const handleUpdateCampaign = (campaignId, updates)=>{
@@ -4642,22 +4642,22 @@ function Dashboard() {
     };
     const handleDeleteCampaign = (campaignId)=>{
         setCampaigns((prev)=>prev.filter((campaign)=>campaign.id !== campaignId));
-        // If deleting active campaign, check if there are remaining campaigns
+        // If deleting active goal, check if there are remaining goals
         if (campaignId === activeCampaignId) {
             const remainingCampaigns = campaigns.filter((c)=>c.id !== campaignId);
             if (remainingCampaigns.length > 0) {
                 setActiveCampaignId(remainingCampaigns[0].id);
                 setSuperChats([]);
             } else {
-                // If no campaigns left, clear active campaign and stay in campaigns manager
+                // If no goals left, clear active goal and stay in goals manager
                 setActiveCampaignId('');
                 setSuperChats([]);
                 setShowCampaignsManager(true);
             }
         }
     };
-    // Early return if no active campaign - show campaigns manager instead of loading
-    if (!activeCampaign || campaigns.length === 0) {
+    // Early return if no active goal - show goals manager instead of loading
+    if (!activeGoal || campaigns.length === 0) {
         return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
             className: "min-h-screen bg-[#0f0f0f]",
             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4694,7 +4694,7 @@ function Dashboard() {
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                         className: "text-gray-400 mb-6",
-                                        children: "Create your first campaign to get started tracking donations."
+                                        children: "Create your first goal to get started tracking donations."
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/Dashboard.tsx",
                                         lineNumber: 205,
@@ -4743,7 +4743,7 @@ function Dashboard() {
             className: "container mx-auto px-4 py-6 space-y-6",
             children: [
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Header$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
-                    campaign: activeCampaign,
+                    campaign: activeGoal,
                     onCampaignUpdate: handleCampaignUpdate,
                     onClearAllDonations: handleClearAllDonations,
                     onShowCampaignsManager: ()=>setShowCampaignsManager(true),
@@ -4774,7 +4774,7 @@ function Dashboard() {
                                     className: "lg:col-span-2 space-y-6",
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ProgressSection$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
-                                            campaign: activeCampaign,
+                                            campaign: activeGoal,
                                             progress: progress,
                                             duration: duration,
                                             onAddManualDonation: handleAddManualDonation
@@ -4785,7 +4785,7 @@ function Dashboard() {
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$StatsSection$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
                                             superChats: superChats,
-                                            campaign: activeCampaign,
+                                            campaign: activeGoal,
                                             contributors: contributors,
                                             onEditDonation: handleEditDonation,
                                             onDeleteDonation: handleDeleteDonation
@@ -4815,7 +4815,7 @@ function Dashboard() {
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$LeaderboardSection$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
                                             contributors: contributors,
-                                            currency: activeCampaign.currency
+                                            currency: activeGoal.currency
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/Dashboard.tsx",
                                             lineNumber: 273,
@@ -4835,7 +4835,7 @@ function Dashboard() {
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ImportSection$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
                             onImportData: handleImportData,
-                            campaignCurrency: activeCampaign.currency
+                            campaignCurrency: activeGoal.currency
                         }, void 0, false, {
                             fileName: "[project]/src/components/Dashboard.tsx",
                             lineNumber: 277,
@@ -4848,7 +4848,7 @@ function Dashboard() {
                     onClose: ()=>setShowClearConfirm(false),
                     onConfirm: confirmClearAllDonations,
                     title: "Clear All Donations",
-                    message: `Are you sure you want to clear all ${superChats.length} donations? This action cannot be undone and will reset your campaign progress.`,
+                    message: `Are you sure you want to clear all ${superChats.length} donations? This action cannot be undone and will reset your goal progress.`,
                     confirmText: "Clear All",
                     cancelText: "Keep Donations",
                     type: "danger"
