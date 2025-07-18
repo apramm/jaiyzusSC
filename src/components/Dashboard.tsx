@@ -56,40 +56,6 @@ export default function Dashboard() {
   const [channelInfo, setChannelInfo] = useState<YouTubeChannelInfo | null>(null);
   const [liveInfo, setLiveInfo] = useState<YouTubeLiveInfo | null>(null);
 
-  // Add some demo data on first load
-  useEffect(() => {
-    const demoData: SuperChatData[] = [
-      {
-        id: generateId(),
-        contributor: 'Alice Johnson',
-        amount: 25,
-        currency: 'USD',
-        message: 'Great cause! Keep it up! 💖',
-        timestamp: new Date(Date.now() - 3600000),
-        platform: 'manual'
-      },
-      {
-        id: generateId(),
-        contributor: 'Bob Smith',
-        amount: 50,
-        currency: 'USD',
-        message: 'Happy to support this initiative!',
-        timestamp: new Date(Date.now() - 7200000),
-        platform: 'manual'
-      },
-      {
-        id: generateId(),
-        contributor: 'Charlie Davis',
-        amount: 15,
-        currency: 'USD',
-        message: 'Every bit helps! 🎯',
-        timestamp: new Date(Date.now() - 1800000),
-        platform: 'manual'
-      }
-    ];
-    setSuperChats(demoData);
-  }, []);
-
   // Calculate current amount from superchats and update active campaign
   useEffect(() => {
     if (activeCampaignId) {
