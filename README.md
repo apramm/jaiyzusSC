@@ -1,8 +1,7 @@
 # YouTube SuperChat Tracker
 
-A modern web application for YouTube live streamers to track superchats and donations in real-time. Built with Next.js, TypeScript, and Tailwind CSS.
+web app to track superchats and donations for youtube. Built with Next.js, TypeScript, and Tailwind CSS.
 
-![YouTube SuperChat Tracker](https://via.placeholder.com/800x400?text=YouTube+SuperChat+Tracker)
 
 ## ✨ Features
 
@@ -31,12 +30,6 @@ A modern web application for YouTube live streamers to track superchats and dona
 - Recent activity feed
 - Performance insights
 
-### 🎨 **YouTube Integration**
-- Channel information display
-- Live stream status
-- Subscriber and view counts
-- Stream viewer tracking
-- YouTube branding
 
 ### 🌙 **Modern UI/UX**
 - Dark/Light mode toggle
@@ -45,40 +38,15 @@ A modern web application for YouTube live streamers to track superchats and dona
 - YouTube-inspired aesthetics
 - Mobile-friendly interface
 
-## 🚀 Quick Start
+## ✨ Future Features
 
-### Prerequisites
-- Node.js 18+ 
-- npm, yarn, pnpm, or bun
+### 🎨 **YouTube Integration**
+- Channel information display
+- Live stream status
+- Subscriber and view counts
+- Stream viewer tracking
+- YouTube branding
 
-### Installation
-
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd jaiyzus-sc
-   ```
-
-2. **Install dependencies**
-   ```bash
-   npm install
-   # or
-   yarn install
-   # or
-   pnpm install
-   ```
-
-3. **Run the development server**
-   ```bash
-   npm run dev
-   # or
-   yarn dev
-   # or
-   pnpm dev
-   ```
-
-4. **Open your browser**
-   Navigate to [http://localhost:3000](http://localhost:3000)
 
 ## 📋 Usage
 
@@ -95,12 +63,6 @@ A modern web application for YouTube live streamers to track superchats and dona
    - **Text**: `"Name donated $50: Message"` or `"Name: $50 - Message"`
 3. Drag & drop or select your file
 4. Review the import results
-
-### YouTube Integration
-1. Enter your YouTube channel ID or handle
-2. Click "Connect Channel" to fetch channel information
-3. View live stream status and viewer counts
-4. Monitor real-time engagement
 
 ### Adding Manual Donations
 1. Click "Add Donation" in the Progress section
@@ -138,50 +100,6 @@ src/
 └── styles/              # Global styles
 ```
 
-## 🌐 Deployment
-
-### Vercel (Recommended)
-1. Push your code to GitHub
-2. Connect your repository to [Vercel](https://vercel.com)
-3. Deploy with zero configuration
-
-### Manual Deployment
-```bash
-npm run build
-npm start
-```
-
-## 🔧 Configuration
-
-### Environment Variables
-Create a `.env.local` file for environment-specific settings:
-
-```env
-# YouTube API (for real integration)
-YOUTUBE_API_KEY=your_youtube_api_key
-
-# Optional: Database URL for persistent storage
-DATABASE_URL=your_database_url
-```
-
-### YouTube API Setup
-1. Create a project in [Google Cloud Console](https://console.cloud.google.com)
-2. Enable YouTube Data API v3
-3. Create API credentials
-4. Add your API key to environment variables
-
-## 🎨 Customization
-
-### Styling
-- Modify `src/app/globals.css` for global styles
-- Update Tailwind configuration in `tailwind.config.js`
-- Customize color schemes in component files
-
-### Features
-- Add new import formats in `src/lib/data-import.ts`
-- Extend analytics in `src/components/StatsSection.tsx`
-- Add integrations in `src/components/YouTubeSection.tsx`
-
 ## 🤝 Contributing
 
 1. Fork the repository
@@ -205,9 +123,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📞 Support
 
 - Create an [issue](https://github.com/yourusername/jaiyzus-sc/issues) for bug reports
-- Join our [Discord](https://discord.gg/yourdiscord) for community support
-- Email: support@yourproject.com
 
 ---
-
-Made with ❤️ for the streaming community
